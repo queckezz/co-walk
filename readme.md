@@ -17,12 +17,13 @@ var files = yield walk(path, {
   symlinks: true,
   ignore: ['art/**', 'node_modules']
 })
+
 // -> ['/home/user/app/.gitignore', ...]
 ```
 
-## Api
+## API
 
-### walk(path, opts)
+### *walk(path, opts)
 
 walk a file tree and return a list of files
 
