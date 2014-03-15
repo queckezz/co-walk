@@ -1,0 +1,31 @@
+{
+  "name": "co-walk",
+  "version": "0.0.2",
+  "description": "walk a file tree and return list of files",
+  "dependencies": {
+    "co-each": "~0.1.0",
+    "co-fs": "~1.1.1",
+    "unglob": "~0.1.1"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/queckezz/co-walk"
+  },
+  "keywords": [
+    "co",
+    "walk",
+    "tree",
+    "files"
+  ],
+  "author": "queckezz",
+  "license": "MIT",
+  "devDependencies": {
+    "co": "~3.0.4",
+    "co-fs": "~1.1.1",
+    "mocha": "~1.18.0",
+    "co-each": "~0.1.0"
+  }
+}
