@@ -54,17 +54,57 @@ describe('.walk()', function () {
     assert.deepEqual(actual, expected)
   }))
 
-  it('should ignore folders / files', co(function* () {
-    var folder = __dirname + '/fixtures/basic'
+  describe('ignore', function () {
 
-    var actual = yield walk(folder, {
-      ignore: ['lib/**']
-    })
+    it('should ignore folders / files by a list of globs', co(function* () {
+      var folder = __dirname + '/fixtures/basic'
 
-    var expected = [
-      'index.js'
-    ]
+      var actual = yield walk(folder, {
+        ignore: ['lib/**']
+      })
 
-    assert.deepEqual(actual, expected)
-  }))
+      var expected = [
+        'index.js'
+      ]
+
+      assert.deepEqual(actual, expected)
+    }))
+
+    it('should ignore folders via a predicate function', co(function* () {
+      var folder = __dirname + '/fixtures/basic'
+
+      var actual = yield walk(folder, {
+        ignore: function (node) { return node === 'lib'}
+      })
+
+      assert.deepEqual(actual, ['index.js'])
+    }))
+
+
+    it('should ignore files via a predicate function', co(function* () {
+      var folder = __dirname + '/fixtures/basic'
+      var actual = yield walk(folder, {
+        ignore: function (node) { return node === 'app.js' }
+      })
+
+      assert.deepEqual(actual, ['index.js'])
+
+      actual = yield walk(folder, {
+        ignore: function (node) { return node === 'index.js' }
+      })
+
+      assert.deepEqual(actual, ['lib/app.js'])
+    }))
+
+    it('should ignore files via a predicate function that also passes the relative path', co(function* () {
+      var folder = __dirname + '/fixtures/basic'
+      var actual = yield walk(folder, {
+        ignore: function (node, rel) { return rel === 'lib/app.js' }
+      })
+
+      assert.deepEqual(actual, ['index.js'])
+    }))
+
+  })
+
 })

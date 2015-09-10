@@ -29,22 +29,23 @@ module.exports = function* (folder, opts) {
       var path = join(folder, node);
       var stats = yield fs.lstat(path);
 
-      if (stats.isDirectory()) {
-        return yield walk(path);
-      }
-
-      else if (opts.symlinks && stats.isSymbolicLink()) {
+      if (opts.symlinks && stats.isSymbolicLink()) {
         path = join(folder, yield fs.readlink(path));
       }
-
       var rel = relative(root, path)
 
-      if (opts.ignore) {
-        var blacklist = yield unglob.list(opts.ignore, [rel]);
-        if (blacklist.indexOf(rel) > -1) return;
-      }
+      if (!(typeof opts.ignore === 'function' && opts.ignore(node, rel, path) ||
+          Array.isArray(opts.ignore) &&
+          (yield unglob.list(opts.ignore, [rel])).indexOf(rel) > -1)) {
 
-      files.push(rel);
+        if (stats.isDirectory()) {
+          yield walk(path);
+        }
+        else {
+          files.push(rel);
+        }
+
+      }
     })
   }
 
