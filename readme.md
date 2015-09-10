@@ -30,7 +30,7 @@ walk a file tree and return a list of files
   * `path`: full path to folder
   * `opts`:
     * `symlinks`: follow symlinks and return origin path _[false]_
-    * `ignore`: a list which folders, files you want to ignore
+    * `ignore`: a list which folders and files you want to ignore, or a predicate function `(filename, relPath, fullPath) => boolean`
 
 ## Tests
 
